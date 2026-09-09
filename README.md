@@ -25,6 +25,8 @@ MovieHub is an web application that allows users to book mark movies to watch la
 * Neon: backend deployment
 * Tailwind CSS
 
+## Movie Hub ERD (Schema)
+![Movie Hub ERD](images/movie_hub_erd.png)
 
 ### Installation
 
