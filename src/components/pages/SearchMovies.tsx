@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+// src/components/pages/SearchMovies.tsx
+
+import { useState } from "react";
 import SearchForm from "../SearchForm";
 import { MovieCard } from "../MovieCard";
-import { fetchFromTMDB } from "../../api/tmdb";
+import { useTMDB } from "../../hooks/useTMDB";
 import type { TMDBMovie } from "../../types/TMDBMovie";
 
 const SearchMovies = () => {
-  const [movies, setMovies] = useState<TMDBMovie[]>([]);
+
   const [term, setTerm] = useState("");
 
   const handleSearch = (searchValue: string) => {
@@ -13,22 +15,16 @@ const SearchMovies = () => {
     setTerm(searchValue);
   };
 
-  useEffect(() => {
-  if (!term) return;
-
-  fetchFromTMDB("/search/movie", `query=${encodeURIComponent(term)}`)
-    .then((data) => {
-      setMovies(data.results ?? []);
-    })
-    .catch((err) => console.error(err));
-}, [term]);
-
-
-  
+  const movies = useTMDB<TMDBMovie>(
+    "/search/movie",
+    `query=${encodeURIComponent(term)}`,
+    term.length > 0
+  );
 
   return (
     <>
       <h1>Search Movies</h1>
+
       <SearchForm onSearch={handleSearch} />
 
       {movies.map((movie) => (

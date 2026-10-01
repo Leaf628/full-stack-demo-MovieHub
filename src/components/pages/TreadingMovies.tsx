@@ -11,10 +11,11 @@ import type { TMDBMovie } from "../../types/TMDBMovie";
 const TrendingMovies = () => {
 
   // use custom hook to fetch trending movies from TMDB api
-  const movies = useTMDB<TMDBMovie[]>("/trending/movie/week");
+  const movies = useTMDB<TMDBMovie>("/trending/movie/week");
 
   return (
     <>
+    <h1>Tending Movies</h1>
       {movies.map((movie) => (
         <MovieCard
           key={movie.id} // use TMDB ID as key

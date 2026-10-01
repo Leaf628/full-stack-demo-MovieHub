@@ -13,15 +13,24 @@ export const useTMDB = <T,>(
   endpoint: string,
   params = "",
   enabled = true
-): T => {
-  const [data, setData] = useState<T>([] as T);
+): T[] => {
+  
+  const [data, setData] = useState<T[]>([]);
 
   useEffect(() => {
-    if (!enabled) return;
+    if (!enabled){
+      setData([]);
+      return;
+    } 
 
     fetchFromTMDB(endpoint, params)
-      .then((res) => setData(res.results as T))
-      .catch(console.error);
+      .then((res) => {
+        setData(res.results ?? []);
+      })
+      .catch((error)=>{
+        console.error(error);
+        setData([]);
+      });
   }, [endpoint, params, enabled]);
 
   return data;
